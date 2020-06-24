@@ -10,4 +10,28 @@ services:
         volumes: 
             - ./app:/app
         command: >
-         sh -c "python manage.py runserver 0.0.0.0:8000"
+            sh -c "python manage.py runserver 0.0.0.0:8000"
+        depends_on: 
+            - postgres
+        env_file: 
+            - ./.env.dev
+    
+    postgres:
+        image: postgres:alpine
+        environment: 
+            POSTGRES_USER: "postgres"
+            POSTGRES_PASSWORD: "postgres"
+            POSTGRES_DB: "recipe_app_api"
+        volumes:
+            - postgres_data:/var/lib/postgresql/data/
+        ports:
+            - "15432:5432"
+        networks: 
+            - postgres-compose-network
+
+volumes:
+    postgres_data:
+
+networks: 
+    postgres-compose-network:
+        driver: bridge
