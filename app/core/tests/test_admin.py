@@ -38,11 +38,10 @@ class TestAdminUser:
         res = client.get(url)
 
         assert res.status_code == 200
-    
+
     def test_create_user_page(self, client):
         """Test that the create user page works"""
         url = reverse('admin:core_user_add')
         res = client.get(url)
 
         assert res.status_code == 200
-
